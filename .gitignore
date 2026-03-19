@@ -1,0 +1,21 @@
+# Python
+__pycache__
+*.pyc
+.env
+venv/
+*.pth
+*.egg-info
+
+# Node
+node_modules/
+dist/
+.env.local
+
+# Data
+data/
+*.tif
+*.geojson
+
+# OS
+.DS_Store
+Thumbs.db
