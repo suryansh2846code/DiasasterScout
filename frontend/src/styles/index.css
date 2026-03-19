@@ -1,0 +1,79 @@
+/* CSS Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --flood: #3B8BD4;
+  --structural: #E24B4A;
+  --road: #EF9F27;
+  --no-change: transparent;
+  --sidebar-bg: #0f1117;
+  --sidebar-border: #1e2130;
+  --card-bg: #1a1d2e;
+  --text-primary: #f0f2f5;
+  --text-secondary: #8b90a7;
+  --accent: #3B8BD4;
+  --success: #22c55e;
+  --critical: #E24B4A;
+  --high: #EF9F27;
+  --medium: #facc15;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+  background: var(--sidebar-bg);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+/* Dark scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--sidebar-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #3a3d4a;
+  border-radius: 3px;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.animate-pulse {
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-blink {
+  animation: blink 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
