@@ -74,6 +74,19 @@ html, body, #root {
   animation: blink 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+@keyframes typewriter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.report-paragraph {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  animation: typewriter 0.3s ease-in;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

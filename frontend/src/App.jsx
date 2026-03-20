@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 import useAnalysis from './hooks/useAnalysis';
 import AnalyzePanel from './components/AnalyzePanel';
 import Sidebar from './components/Sidebar';
@@ -9,9 +10,28 @@ import BeforeAfter from './components/BeforeAfter';
 import ExportPanel from './components/ExportPanel';
 
 function App() {
-  const { data, loading, error, progress, analyze, loadDemo } = useAnalysis();
+  const { data, loading, error, progress, analyze, loadDemo, setData } = useAnalysis();
   const [activeTab, setActiveTab] = useState('overview');
   const [showAnalyzePanel, setShowAnalyzePanel] = useState(true);
+  const [regenerating, setRegenerating] = useState(false);
+
+  const regenerateReport = useCallback(async () => {
+    if (!data) return;
+    setRegenerating(true);
+    try {
+      const response = await axios.post('/api/report', {
+        stats: data.stats,
+        event_name: data.event.name,
+        location: data.event.location
+      });
+      setData(prev => ({ ...prev, report: response.data.report }));
+    } catch (err) {
+      console.error('Report regeneration failed:', err);
+      // silently fail — keep existing report
+    } finally {
+      setRegenerating(false);
+    }
+  }, [data, setData]);
 
   useEffect(() => {
     if (data) setShowAnalyzePanel(false);
@@ -25,7 +45,9 @@ function App() {
           stats={data?.stats} 
           event={data?.event} 
           alerts={data?.alerts} 
-          loading={loading} 
+          report={data?.report}
+          loading={loading || regenerating}
+          onRegenerate={regenerateReport}
         />
         <button
           onClick={() => setShowAnalyzePanel(true)}

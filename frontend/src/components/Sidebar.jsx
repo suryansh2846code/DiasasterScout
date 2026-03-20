@@ -1,7 +1,8 @@
 import React from 'react';
 import StatusBadge from './StatusBadge';
+import SituationReport from './SituationReport';
 
-const Sidebar = ({ stats, event, alerts, loading }) => {
+const Sidebar = ({ stats, event, alerts, loading, report, onRegenerate }) => {
   if (loading) {
     return (
       <aside className="w-[320px] h-full bg-[var(--sidebar-bg)] border-r border-[var(--sidebar-border)] flex flex-col p-4 animate-pulse">
@@ -104,6 +105,15 @@ const Sidebar = ({ stats, event, alerts, loading }) => {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Section 5: Situation Report */}
+      <div className="px-4 pb-4">
+        <SituationReport 
+          report={report || null}
+          loading={loading}
+          onRegenerate={onRegenerate}
+        />
       </div>
     </aside>
   );

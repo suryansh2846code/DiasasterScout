@@ -1,3 +1,5 @@
+// Phase 3: response now includes report field from Claude API
+// No changes needed — report flows through with rest of response
 import { useState, useCallback, useRef } from 'react'
 import axios from 'axios'
 import MOCK_ANALYSIS from '../data/mockData.js'
@@ -125,7 +127,7 @@ export default function useAnalysis() {
     }, 1500)
   }, [])
 
-  return { data, loading, error, progress, analyze, loadDemo }
+  return { data, loading, error, progress, analyze, loadDemo, setData }
 }
 
 // Helper: map progress percentage to human-readable stage
