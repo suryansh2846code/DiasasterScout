@@ -5,6 +5,9 @@ import AnalyzePanel from './components/AnalyzePanel';
 import Sidebar from './components/Sidebar';
 import TabBar from './components/TabBar';
 import MapView from './components/MapView';
+import StatsHeader from './components/StatsHeader';
+import DamageTicker from './components/DamageTicker';
+import DraggableDashboard from './components/DraggableDashboard';
 import LocationsTable from './components/LocationsTable';
 import BeforeAfter from './components/BeforeAfter';
 import ExportPanel from './components/ExportPanel';
@@ -59,6 +62,12 @@ function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col relative min-w-0">
+        {data && (
+          <>
+            <StatsHeader stats={data.stats} event={data.event} loading={loading || regenerating} />
+            <DamageTicker locations={data.locations || []} />
+          </>
+        )}
         <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
         
         <div className="flex-1 relative overflow-hidden">
@@ -72,9 +81,11 @@ function App() {
           )}
 
           {!showAnalyzePanel && data && activeTab === 'overview' && (
-            <MapView 
-              geojsonData={data.geojson} 
-              onFeatureClick={(feature) => console.log('Feature clicked:', feature)} 
+            <DraggableDashboard 
+              geojsonData={data.geojson}
+              stats={data.stats}
+              locations={data.locations}
+              loading={loading || regenerating}
             />
           )}
           {!showAnalyzePanel && data && activeTab === 'locations' && (

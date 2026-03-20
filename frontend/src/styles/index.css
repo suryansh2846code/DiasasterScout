@@ -87,6 +87,68 @@ html, body, #root {
   animation: typewriter 0.3s ease-in;
 }
 
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes pulse-red {
+  0%, 100% { 
+    opacity: 1; 
+    box-shadow: 0 0 0 0 rgba(255,68,68,0.4); 
+  }
+  50% { 
+    opacity: 0.8; 
+    box-shadow: 0 0 0 6px rgba(255,68,68,0); 
+  }
+}
+
+@keyframes flash-in {
+  0%   { opacity: 0; transform: translateY(-4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.drag-handle:active { cursor: grabbing; }
+
+.panel-card {
+  background: var(--card-bg);
+  border: 0.5px solid var(--sidebar-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.metric-value {
+  font-family: monospace;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.panel-header-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+/* react-grid-layout drag ghost */
+.react-grid-item.react-draggable-dragging {
+  opacity: 0.85;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  z-index: 100;
+}
+
+.react-grid-item.react-grid-placeholder {
+  background: rgba(59, 139, 212, 0.1);
+  border: 1px dashed #3B8BD4;
+  border-radius: 8px;
+}
+
+/* recharts dark theme overrides */
+.recharts-tooltip-wrapper {
+  outline: none;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -37,21 +37,60 @@ const Sidebar = ({ stats, event, alerts, loading, report, onRegenerate }) => {
 
       {/* Section 2: Stats Grid */}
       <div className="p-4 grid grid-cols-2 gap-3">
-        <div className="bg-[var(--card-bg)] border border-[var(--sidebar-border)] rounded-lg p-3">
-          <p className="text-[24px] font-semibold" style={{ color: 'var(--structural)' }}>{stats?.buildingsDamaged}</p>
-          <p className="text-[11px] text-[var(--text-secondary)] uppercase">Buildings Damaged</p>
+        {/* Buildings Card */}
+        <div className="bg-[var(--card-bg)] border border-[var(--sidebar-border)] rounded-lg p-3" style={{ borderTop: '3px solid #E24B4A' }}>
+          <p className="text-[11px] text-[var(--text-secondary)] uppercase mb-1">Buildings Damaged</p>
+          <p style={{ fontFamily: 'monospace', fontSize: '24px', fontWeight: 600, color: 'var(--structural)', lineHeight: 1 }}>
+            {stats?.buildingsDamaged || 0}
+          </p>
+          <p style={{ marginTop: '4px', fontSize: '10px', color: '#E24B4A', fontWeight: 500 }}>
+            ↑ {stats?.severeCases || 0} CRITICAL CASES
+          </p>
+          <p style={{ marginTop: '6px', fontSize: '8px', color: '#333', letterSpacing: '0.05em' }}>
+            SRC: SATELLITE AI
+          </p>
         </div>
-        <div className="bg-[var(--card-bg)] border border-[var(--sidebar-border)] rounded-lg p-3">
-          <p className="text-[24px] font-semibold" style={{ color: 'var(--road)' }}>{stats?.roadsBlocked}</p>
-          <p className="text-[11px] text-[var(--text-secondary)] uppercase">Roads Blocked</p>
+        
+        {/* Roads Card */}
+        <div className="bg-[var(--card-bg)] border border-[var(--sidebar-border)] rounded-lg p-3" style={{ borderTop: '3px solid #EF9F27' }}>
+          <p className="text-[11px] text-[var(--text-secondary)] uppercase mb-1">Roads Blocked</p>
+          <p style={{ fontFamily: 'monospace', fontSize: '24px', fontWeight: 600, color: 'var(--road)', lineHeight: 1 }}>
+            {stats?.roadsBlocked || 0}
+          </p>
+          <p style={{ marginTop: '4px', fontSize: '10px', color: '#EF9F27', fontWeight: 500 }}>
+            ■ ALL BLOCKED
+          </p>
+          <p style={{ marginTop: '6px', fontSize: '8px', color: '#333', letterSpacing: '0.05em' }}>
+            SRC: SATELLITE AI
+          </p>
         </div>
-        <div className="bg-[var(--card-bg)] border border-[var(--sidebar-border)] rounded-lg p-3">
-          <p className="text-[24px] font-semibold" style={{ color: 'var(--flood)' }}>{stats?.totalAreaAnalyzedKm2}</p>
-          <p className="text-[11px] text-[var(--text-secondary)] uppercase">Area km²</p>
+
+        {/* Area Card */}
+        <div className="bg-[var(--card-bg)] border border-[var(--sidebar-border)] rounded-lg p-3" style={{ borderTop: '3px solid #3B8BD4' }}>
+          <p className="text-[11px] text-[var(--text-secondary)] uppercase mb-1">Area km²</p>
+          <p style={{ fontFamily: 'monospace', fontSize: '24px', fontWeight: 600, color: 'var(--flood)', lineHeight: 1 }}>
+            {stats?.totalAreaAnalyzedKm2 || 0}
+          </p>
+          <p style={{ marginTop: '4px', fontSize: '10px', color: '#3B8BD4', fontWeight: 500 }}>
+            ● ANALYZED
+          </p>
+          <p style={{ marginTop: '6px', fontSize: '8px', color: '#333', letterSpacing: '0.05em' }}>
+            SRC: SATELLITE AI
+          </p>
         </div>
-        <div className="bg-[var(--card-bg)] border border-[var(--sidebar-border)] rounded-lg p-3">
-          <p className="text-[24px] font-semibold" style={{ color: 'var(--success)' }}>{(stats?.confidenceScore * 100).toFixed(0)}%</p>
-          <p className="text-[11px] text-[var(--text-secondary)] uppercase">Confidence</p>
+
+        {/* Confidence Card */}
+        <div className="bg-[var(--card-bg)] border border-[var(--sidebar-border)] rounded-lg p-3" style={{ borderTop: '3px solid #22c55e' }}>
+          <p className="text-[11px] text-[var(--text-secondary)] uppercase mb-1">Confidence</p>
+          <p style={{ fontFamily: 'monospace', fontSize: '24px', fontWeight: 600, color: 'var(--success)', lineHeight: 1 }}>
+            {stats?.confidenceScore ? (stats.confidenceScore * 100).toFixed(0) : 0}%
+          </p>
+          <p style={{ marginTop: '4px', fontSize: '10px', color: '#22c55e', fontWeight: 500 }}>
+            ✓ HIGH CONFIDENCE
+          </p>
+          <p style={{ marginTop: '6px', fontSize: '8px', color: '#333', letterSpacing: '0.05em' }}>
+            SRC: SATELLITE AI
+          </p>
         </div>
       </div>
 
