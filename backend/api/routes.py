@@ -4,19 +4,35 @@ import os
 import uuid
 import time
 from datetime import datetime
+import json
 
 from model.inference import run_full_pipeline
 from pipeline.postprocess import mask_to_geojson, calculate_statistics
+from services.claude_service import generate_situation_report
 
 router = APIRouter()
 
 CHECKPOINT_PATH = os.getenv('MODEL_CHECKPOINT_PATH', './checkpoints/disasterscout_best.pth')
+
+DEMO_CACHE = {}
+cache_dir = os.path.join(os.path.dirname(__file__), '..', 'demo_cache')
+for filename in ['turkey_response.json', 'wayanad_response.json']:
+    filepath = os.path.join(cache_dir, filename)
+    if os.path.exists(filepath):
+        key = filename.replace('_response.json', '')
+        with open(filepath) as f:
+            DEMO_CACHE[key] = json.load(f)
 
 class AnalyzeRequest(BaseModel):
     pre_image_url: str
     post_image_url: str
     event_name: str
     location: str = "Unknown location"
+
+class ReportRequest(BaseModel):
+    stats: dict
+    event_name: str
+    location: str
 
 def convert_geojson_to_locations_array(geojson):
     locations = []
@@ -61,7 +77,7 @@ def generate_alerts_from_stats(stats):
             "severity": "high",
             "timestamp": now
         })
-    elif stats['floodedAreaKm2'] > 0:
+    elif stats.get('floodedAreaKm2', 0) > 0:
         alerts.append({
             "id": "alert-1",
             "type": "flood",
@@ -92,7 +108,13 @@ def generate_alerts_from_stats(stats):
 
 @router.post("/analyze")
 async def analyze(request: AnalyzeRequest):
-    # TODO production: wrap in Celery task for async processing
+    # Serve demo cache if keyword matches
+    name_lower = request.event_name.lower()
+    if 'turkey' in name_lower and 'turkey' in DEMO_CACHE:
+        return DEMO_CACHE['turkey']
+    if 'wayanad' in name_lower and 'wayanad' in DEMO_CACHE:
+        return DEMO_CACHE['wayanad']
+        
     job_id = str(uuid.uuid4())[:8]
     t0 = time.time()
     
@@ -104,6 +126,13 @@ async def analyze(request: AnalyzeRequest):
     
     geojson = mask_to_geojson(mask, confidence_map)
     stats = calculate_statistics(mask, confidence_map)
+    
+    print("Generating Claude situation report...")
+    report = generate_situation_report(
+        stats=stats,
+        event_name=request.event_name,
+        location=request.location
+    )
     
     elapsed_time = round(time.time() - t0, 2)
     
@@ -120,8 +149,22 @@ async def analyze(request: AnalyzeRequest):
         "stats": stats,
         "geojson": geojson,
         "locations": convert_geojson_to_locations_array(geojson),
-        "alerts": generate_alerts_from_stats(stats)
+        "alerts": generate_alerts_from_stats(stats),
+        "report": report
     }
+
+@router.post("/report")
+async def generate_report(request: ReportRequest):
+    """
+    Regenerates situation report from existing stats.
+    Used by frontend refresh button.
+    """
+    report = generate_situation_report(
+        stats=request.stats,
+        event_name=request.event_name,
+        location=request.location
+    )
+    return {"report": report, "generated_at": datetime.utcnow().isoformat()}
 
 @router.get("/status/{job_id}")
 def get_status(job_id: str):

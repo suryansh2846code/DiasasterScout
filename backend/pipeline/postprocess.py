@@ -121,30 +121,44 @@ def calculate_statistics(mask: np.ndarray, confidence_map: np.ndarray):
         "minorCases": minor_count
     }
 
-def generate_report_prompt(stats: dict, event_name: str, location: str):
-    timestamp_str = datetime.utcnow().isoformat()
-    return f"""You are a disaster response coordinator AI assistant.
-  Generate a professional 3-paragraph situation report based on these 
-  damage assessment statistics from DisasterScout satellite analysis.
-  
-  Event: {event_name}
-  Location: {location}
-  Analysis timestamp: {timestamp_str}
-  
-  DAMAGE STATISTICS:
-  - Flooded area: {stats['floodedAreaKm2']} km²
-  - Buildings damaged: {stats['buildingsDamaged']}
-  - Roads blocked: {stats['roadsBlocked']}
-  - Total area analyzed: {stats['totalAreaAnalyzedKm2']} km²
-  - Overall confidence: {stats['confidenceScore']*100:.0f}%
-  - Severe cases: {stats['severeCases']}
-  - Moderate cases: {stats['moderateCases']}
-  - Minor cases: {stats['minorCases']}
-  
-  Write a situation report with:
-  Paragraph 1: Summary of damage extent and most critical areas
-  Paragraph 2: Specific rescue and resource deployment recommendations
-  Paragraph 3: Immediate next steps for coordination teams
-  
-  Be specific, use the numbers provided, and write in the style of a 
-  professional emergency management brief. Do not use bullet points."""
+def generate_report_prompt(stats, event_name, location):
+    return f"""You are a professional disaster response coordinator 
+    generating an emergency situation report.
+    
+    Based on the following satellite damage assessment data from 
+    DisasterScout AI analysis, write a professional 3-paragraph 
+    situation report.
+    
+    EVENT: {event_name}
+    LOCATION: {location}
+    ANALYSIS TIME: {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}
+    
+    DAMAGE STATISTICS:
+    - Buildings damaged: {stats['buildingsDamaged']}
+    - Roads blocked: {stats['roadsBlocked']}
+    - Flooded area: {stats['floodedAreaKm2']} km²
+    - Total area analyzed: {stats['totalAreaAnalyzedKm2']} km²
+    - Confidence score: {stats['confidenceScore']*100:.0f}%
+    - Critical cases: {stats['severeCases']}
+    - Moderate cases: {stats['moderateCases']}
+    - Minor cases: {stats['minorCases']}
+    
+    Write exactly 3 paragraphs:
+    
+    Paragraph 1: Summarize the overall damage extent with specific 
+    numbers. Mention the most critically affected areas and what 
+    the satellite imagery reveals about the scale of destruction.
+    
+    Paragraph 2: Give specific rescue and resource deployment 
+    recommendations. Include which areas to prioritize, what 
+    equipment to deploy (heavy rescue, boats, medical), and 
+    estimated number of people affected.
+    
+    Paragraph 3: List immediate next steps for coordination teams 
+    in the next 6 hours. Be specific and actionable.
+    
+    Use a professional emergency management tone. 
+    Reference specific numbers from the statistics.
+    Do not use bullet points — write in flowing paragraphs.
+    Do not add headers or labels to paragraphs.
+    Keep total length under 300 words."""
