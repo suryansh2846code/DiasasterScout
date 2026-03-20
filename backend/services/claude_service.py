@@ -1,17 +1,12 @@
-import anthropic
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = anthropic.Anthropic(
-    api_key=os.getenv('ANTHROPIC_API_KEY')
-)
-
 def generate_situation_report(stats: dict, event_name: str, 
                                location: str) -> str:
     """
-    Calls Claude API to generate a natural language situation report.
+    Calls Groq API to generate a natural language situation report.
     Returns the report as a string.
     Falls back to a template report if API call fails.
     """
@@ -20,27 +15,32 @@ def generate_situation_report(stats: dict, event_name: str,
     prompt = generate_report_prompt(stats, event_name, location)
     
     try:
-        message = client.messages.create(
-            model="claude-sonnet-4-20250514",
-            max_tokens=1024,
+        from groq import Groq
+        client = Groq(
+            api_key=os.getenv('GROQ_API_KEY')
+        )
+        
+        chat_completion = client.chat.completions.create(
             messages=[
                 {
-                    "role": "user", 
-                    "content": prompt
+                    "role": "user",
+                    "content": prompt,
                 }
-            ]
+            ],
+            model="llama-3.3-70b-versatile", # powerful model for text gen
+            max_tokens=1024,
         )
-        return message.content[0].text
+        return chat_completion.choices[0].message.content
         
     except Exception as e:
-        print(f"Claude API error: {e}")
+        print(f"Groq API error: {e}")
         # Fallback template if API fails
         return generate_fallback_report(stats, event_name, location)
 
 def generate_fallback_report(stats: dict, event_name: str, 
                               location: str) -> str:
     """
-    Template-based report used when Claude API is unavailable.
+    Template-based report used when LLM API is unavailable.
     Ensures demo always works even without API key.
     """
     return f"""Satellite analysis of {event_name} in {location} 
