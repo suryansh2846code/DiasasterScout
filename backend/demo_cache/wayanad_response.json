@@ -4,7 +4,7 @@
   "event": {
     "name": "Wayanad Landslides",
     "location": "Kerala, India",
-    "analyzedAt": "2026-03-20T12:52:49.542388Z",
+    "analyzedAt": "2026-03-21T00:05:04.639355Z",
     "satelliteSource": "Demo Imagery",
     "processingTimeSeconds": 1.45
   },
@@ -561,21 +561,21 @@
       "type": "flood",
       "message": "Critical: 8.3 km\u00b2 of flooded area and landslides detected.",
       "severity": "high",
-      "timestamp": "2026-03-20T12:52:49.542386Z"
+      "timestamp": "2026-03-21T00:05:04.639353Z"
     },
     {
       "id": "alert-w2",
       "type": "infrastructure",
       "message": "Warning: 7 road blockages identified cutting off valley access.",
       "severity": "medium",
-      "timestamp": "2026-03-20T12:52:49.542387Z"
+      "timestamp": "2026-03-21T00:05:04.639354Z"
     },
     {
       "id": "alert-w3",
       "type": "assessment",
       "message": "Analysis complete. Found 189 damaged structures.",
       "severity": "info",
-      "timestamp": "2026-03-20T12:52:49.542388Z"
+      "timestamp": "2026-03-21T00:05:04.639355Z"
     }
   ],
   "report": "DisasterScout's satellite analysis of the Wayanad region indicates severe landslide and flooding impacts across the 15.2 km\u00b2 surveyed area. We have identified 8.3 km\u00b2 of land completely inundated or buried in mudflows, leading to 189 structures sustaining damage. There are 45 critical severity cases isolated in the valley floors. The overall assessment reliability is graded at 76%.\n\nImmediate rescue operations must prioritize aerial deployment, as 7 major road access points have been entirely blocked by mud and debris. Water-bound rescue craft (Zodiacs) and helicopters are urgently required for the 45 critical zones. Given the high concentration of structural damage mixed with flooding, we estimate several hundred residents are currently stranded without dry access routes.\n\nOver the next 6 hours, coordination units should mobilize heavy earth-moving equipment to the perimeter while sending swift-water rescue teams into the Zone-X1 and Zone-Y0 coordinates where flooding is most severe. Medical teams should be pre-positioned at elevated staging areas to receive airlifted evacuees."

@@ -108,12 +108,16 @@ def generate_alerts_from_stats(stats):
 
 @router.post("/analyze")
 async def analyze(request: AnalyzeRequest):
-    # Serve demo cache if keyword matches
+    # CHECK DEMO CACHE FIRST — before anything else
     name_lower = request.event_name.lower()
-    if 'turkey' in name_lower and 'turkey' in DEMO_CACHE:
-        return DEMO_CACHE['turkey']
-    if 'wayanad' in name_lower and 'wayanad' in DEMO_CACHE:
-        return DEMO_CACHE['wayanad']
+    
+    if 'turkey' in name_lower or 'syria' in name_lower:
+        if 'turkey' in DEMO_CACHE:
+            return DEMO_CACHE['turkey']
+    
+    if 'wayanad' in name_lower or 'kerala' in name_lower:
+        if 'wayanad' in DEMO_CACHE:
+            return DEMO_CACHE['wayanad']
         
     job_id = str(uuid.uuid4())[:8]
     t0 = time.time()
