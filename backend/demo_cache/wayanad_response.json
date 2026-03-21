@@ -1,0 +1,582 @@
+{
+  "job_id": "demo-wayanad",
+  "status": "complete",
+  "event": {
+    "name": "Wayanad Landslides",
+    "location": "Kerala, India",
+    "analyzedAt": "2026-03-21T00:05:04.639355Z",
+    "satelliteSource": "Demo Imagery",
+    "processingTimeSeconds": 1.45
+  },
+  "stats": {
+    "buildingsDamaged": 189,
+    "roadsBlocked": 7,
+    "floodedAreaKm2": 8.3,
+    "totalAreaAnalyzedKm2": 15.2,
+    "confidenceScore": 0.76,
+    "severeCases": 45,
+    "moderateCases": 89,
+    "minorCases": 55
+  },
+  "geojson": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                76.08,
+                11.6
+              ],
+              [
+                76.081,
+                11.6
+              ],
+              [
+                76.081,
+                11.600999999999999
+              ],
+              [
+                76.08,
+                11.600999999999999
+              ],
+              [
+                76.08,
+                11.6
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "id": "dmg-flood-000",
+          "damageType": "flood",
+          "severity": 5,
+          "confidence": 0.7,
+          "areaKm2": 0.08,
+          "affectedBuildings": 5,
+          "sectorName": "Zone-X0"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                76.085,
+                11.605
+              ],
+              [
+                76.086,
+                11.605
+              ],
+              [
+                76.086,
+                11.606
+              ],
+              [
+                76.085,
+                11.606
+              ],
+              [
+                76.085,
+                11.605
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "id": "dmg-flood-001",
+          "damageType": "structural_damage",
+          "severity": 5,
+          "confidence": 0.72,
+          "areaKm2": 0.08,
+          "affectedBuildings": 5,
+          "sectorName": "Zone-Y1"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                76.09,
+                11.61
+              ],
+              [
+                76.09100000000001,
+                11.61
+              ],
+              [
+                76.09100000000001,
+                11.610999999999999
+              ],
+              [
+                76.09,
+                11.610999999999999
+              ],
+              [
+                76.09,
+                11.61
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "id": "dmg-flood-002",
+          "damageType": "flood",
+          "severity": 5,
+          "confidence": 0.74,
+          "areaKm2": 0.08,
+          "affectedBuildings": 5,
+          "sectorName": "Zone-Z0"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                76.095,
+                11.6
+              ],
+              [
+                76.096,
+                11.6
+              ],
+              [
+                76.096,
+                11.600999999999999
+              ],
+              [
+                76.095,
+                11.600999999999999
+              ],
+              [
+                76.095,
+                11.6
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "id": "dmg-flood-003",
+          "damageType": "structural_damage",
+          "severity": 3,
+          "confidence": 0.76,
+          "areaKm2": 0.08,
+          "affectedBuildings": 5,
+          "sectorName": "Zone-X1"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                76.1,
+                11.605
+              ],
+              [
+                76.101,
+                11.605
+              ],
+              [
+                76.101,
+                11.606
+              ],
+              [
+                76.1,
+                11.606
+              ],
+              [
+                76.1,
+                11.605
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "id": "dmg-flood-004",
+          "damageType": "flood",
+          "severity": 3,
+          "confidence": 0.78,
+          "areaKm2": 0.08,
+          "affectedBuildings": 5,
+          "sectorName": "Zone-Y0"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                76.105,
+                11.61
+              ],
+              [
+                76.10600000000001,
+                11.61
+              ],
+              [
+                76.10600000000001,
+                11.610999999999999
+              ],
+              [
+                76.105,
+                11.610999999999999
+              ],
+              [
+                76.105,
+                11.61
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "id": "dmg-flood-005",
+          "damageType": "structural_damage",
+          "severity": 3,
+          "confidence": 0.8,
+          "areaKm2": 0.08,
+          "affectedBuildings": 5,
+          "sectorName": "Zone-Z1"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                76.11,
+                11.6
+              ],
+              [
+                76.111,
+                11.6
+              ],
+              [
+                76.111,
+                11.600999999999999
+              ],
+              [
+                76.11,
+                11.600999999999999
+              ],
+              [
+                76.11,
+                11.6
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "id": "dmg-flood-006",
+          "damageType": "flood",
+          "severity": 3,
+          "confidence": 0.82,
+          "areaKm2": 0.08,
+          "affectedBuildings": 5,
+          "sectorName": "Zone-X0"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                76.115,
+                11.605
+              ],
+              [
+                76.116,
+                11.605
+              ],
+              [
+                76.116,
+                11.606
+              ],
+              [
+                76.115,
+                11.606
+              ],
+              [
+                76.115,
+                11.605
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "id": "dmg-flood-007",
+          "damageType": "structural_damage",
+          "severity": 1,
+          "confidence": 0.84,
+          "areaKm2": 0.08,
+          "affectedBuildings": 5,
+          "sectorName": "Zone-Y1"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                76.12,
+                11.61
+              ],
+              [
+                76.12100000000001,
+                11.61
+              ],
+              [
+                76.12100000000001,
+                11.610999999999999
+              ],
+              [
+                76.12,
+                11.610999999999999
+              ],
+              [
+                76.12,
+                11.61
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "id": "dmg-flood-008",
+          "damageType": "flood",
+          "severity": 1,
+          "confidence": 0.86,
+          "areaKm2": 0.08,
+          "affectedBuildings": 5,
+          "sectorName": "Zone-Z0"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                76.125,
+                11.6
+              ],
+              [
+                76.126,
+                11.6
+              ],
+              [
+                76.126,
+                11.600999999999999
+              ],
+              [
+                76.125,
+                11.600999999999999
+              ],
+              [
+                76.125,
+                11.6
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "id": "dmg-flood-009",
+          "damageType": "structural_damage",
+          "severity": 1,
+          "confidence": 0.88,
+          "areaKm2": 0.08,
+          "affectedBuildings": 5,
+          "sectorName": "Zone-X1"
+        }
+      }
+    ]
+  },
+  "locations": [
+    {
+      "id": "dmg-flood-000",
+      "sectorName": "Zone-X0",
+      "damageType": "flood",
+      "severity": 5,
+      "coords": {
+        "lat": 11.6005,
+        "lng": 76.0805
+      },
+      "estimatedAffected": 15,
+      "confidence": 0.7,
+      "areaKm2": 0.08,
+      "priority": "critical"
+    },
+    {
+      "id": "dmg-flood-001",
+      "sectorName": "Zone-Y1",
+      "damageType": "structural_damage",
+      "severity": 5,
+      "coords": {
+        "lat": 11.605500000000001,
+        "lng": 76.0855
+      },
+      "estimatedAffected": 15,
+      "confidence": 0.72,
+      "areaKm2": 0.08,
+      "priority": "critical"
+    },
+    {
+      "id": "dmg-flood-002",
+      "sectorName": "Zone-Z0",
+      "damageType": "flood",
+      "severity": 5,
+      "coords": {
+        "lat": 11.6105,
+        "lng": 76.0905
+      },
+      "estimatedAffected": 15,
+      "confidence": 0.74,
+      "areaKm2": 0.08,
+      "priority": "critical"
+    },
+    {
+      "id": "dmg-flood-003",
+      "sectorName": "Zone-X1",
+      "damageType": "structural_damage",
+      "severity": 3,
+      "coords": {
+        "lat": 11.6005,
+        "lng": 76.0955
+      },
+      "estimatedAffected": 15,
+      "confidence": 0.76,
+      "areaKm2": 0.08,
+      "priority": "high"
+    },
+    {
+      "id": "dmg-flood-004",
+      "sectorName": "Zone-Y0",
+      "damageType": "flood",
+      "severity": 3,
+      "coords": {
+        "lat": 11.605500000000001,
+        "lng": 76.1005
+      },
+      "estimatedAffected": 15,
+      "confidence": 0.78,
+      "areaKm2": 0.08,
+      "priority": "high"
+    },
+    {
+      "id": "dmg-flood-005",
+      "sectorName": "Zone-Z1",
+      "damageType": "structural_damage",
+      "severity": 3,
+      "coords": {
+        "lat": 11.6105,
+        "lng": 76.1055
+      },
+      "estimatedAffected": 15,
+      "confidence": 0.8,
+      "areaKm2": 0.08,
+      "priority": "high"
+    },
+    {
+      "id": "dmg-flood-006",
+      "sectorName": "Zone-X0",
+      "damageType": "flood",
+      "severity": 3,
+      "coords": {
+        "lat": 11.6005,
+        "lng": 76.1105
+      },
+      "estimatedAffected": 15,
+      "confidence": 0.82,
+      "areaKm2": 0.08,
+      "priority": "high"
+    },
+    {
+      "id": "dmg-flood-007",
+      "sectorName": "Zone-Y1",
+      "damageType": "structural_damage",
+      "severity": 1,
+      "coords": {
+        "lat": 11.605500000000001,
+        "lng": 76.1155
+      },
+      "estimatedAffected": 15,
+      "confidence": 0.84,
+      "areaKm2": 0.08,
+      "priority": "high"
+    },
+    {
+      "id": "dmg-flood-008",
+      "sectorName": "Zone-Z0",
+      "damageType": "flood",
+      "severity": 1,
+      "coords": {
+        "lat": 11.6105,
+        "lng": 76.1205
+      },
+      "estimatedAffected": 15,
+      "confidence": 0.86,
+      "areaKm2": 0.08,
+      "priority": "high"
+    },
+    {
+      "id": "dmg-flood-009",
+      "sectorName": "Zone-X1",
+      "damageType": "structural_damage",
+      "severity": 1,
+      "coords": {
+        "lat": 11.6005,
+        "lng": 76.1255
+      },
+      "estimatedAffected": 15,
+      "confidence": 0.88,
+      "areaKm2": 0.08,
+      "priority": "high"
+    }
+  ],
+  "alerts": [
+    {
+      "id": "alert-w1",
+      "type": "flood",
+      "message": "Critical: 8.3 km\u00b2 of flooded area and landslides detected.",
+      "severity": "high",
+      "timestamp": "2026-03-21T00:05:04.639353Z"
+    },
+    {
+      "id": "alert-w2",
+      "type": "infrastructure",
+      "message": "Warning: 7 road blockages identified cutting off valley access.",
+      "severity": "medium",
+      "timestamp": "2026-03-21T00:05:04.639354Z"
+    },
+    {
+      "id": "alert-w3",
+      "type": "assessment",
+      "message": "Analysis complete. Found 189 damaged structures.",
+      "severity": "info",
+      "timestamp": "2026-03-21T00:05:04.639355Z"
+    }
+  ],
+  "report": "DisasterScout's satellite analysis of the Wayanad region indicates severe landslide and flooding impacts across the 15.2 km\u00b2 surveyed area. We have identified 8.3 km\u00b2 of land completely inundated or buried in mudflows, leading to 189 structures sustaining damage. There are 45 critical severity cases isolated in the valley floors. The overall assessment reliability is graded at 76%.\n\nImmediate rescue operations must prioritize aerial deployment, as 7 major road access points have been entirely blocked by mud and debris. Water-bound rescue craft (Zodiacs) and helicopters are urgently required for the 45 critical zones. Given the high concentration of structural damage mixed with flooding, we estimate several hundred residents are currently stranded without dry access routes.\n\nOver the next 6 hours, coordination units should mobilize heavy earth-moving equipment to the perimeter while sending swift-water rescue teams into the Zone-X1 and Zone-Y0 coordinates where flooding is most severe. Medical teams should be pre-positioned at elevated staging areas to receive airlifted evacuees."
+}
