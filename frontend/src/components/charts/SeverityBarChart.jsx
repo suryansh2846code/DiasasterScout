@@ -1,69 +1,120 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell, ResponsiveContainer } from 'recharts';
 
-const SeverityBarChart = ({ stats }) => {
+export default function SeverityBarChart({ stats }) {
   const data = [
-    { name: 'Critical', value: stats?.severeCases || 89,   fill: '#E24B4A' },
-    { name: 'Moderate', value: stats?.moderateCases || 158, fill: '#EF9F27' },
-    { name: 'Minor',    value: stats?.minorCases || 100,    fill: '#facc15' }
-  ];
+    { name: 'Critical', value: stats?.severeCases || 89,
+      fill: '#E24B4A' },
+    { name: 'Moderate', value: stats?.moderateCases || 158,
+      fill: '#EF9F27' },
+    { name: 'Minor',    value: stats?.minorCases || 100,
+      fill: '#facc15' }
+  ]
 
-  const CustomTooltip = ({ active, payload }) => {
-    if (active && payload && payload.length) {
-      const data = payload[0].payload;
-      return (
-        <div style={{
-          background: 'var(--card-bg)',
-          border: '0.5px solid var(--sidebar-border)',
-          borderRadius: '6px',
-          padding: '6px 10px',
-          fontSize: '12px'
-        }}>
-          <span style={{ color: data.fill, fontWeight: 500 }}>{data.name}</span>: {data.value}
-        </div>
-      );
-    }
-    return null;
-  };
+  const total = data.reduce((sum, d) => sum + d.value, 0)
 
   return (
-    <div className="flex flex-col h-full">
-      <div style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--text-secondary)', letterSpacing: '0.08em', marginBottom: '8px' }}>
-        SEVERITY BREAKDOWN
+    <div style={{ 
+      height: '100%', 
+      display: 'flex', 
+      flexDirection: 'column',
+      padding: '8px 4px'
+    }}>
+      
+      {/* Header */}
+      <div style={{
+        fontSize: 9,
+        textTransform: 'uppercase',
+        letterSpacing: '0.08em',
+        color: 'var(--text-secondary)',
+        marginBottom: 8
+      }}>
+        Severity Breakdown
       </div>
-      <div className="flex-1 min-h-0">
-        <ResponsiveContainer width="100%" height={130}>
+
+      {/* Chart takes remaining space */}
+      <div style={{ flex: 1, minHeight: 0 }}>
+        <ResponsiveContainer width="100%" height="100%">
           <BarChart
-            layout="vertical"
             data={data}
-            margin={{ top: 5, right: 20, bottom: 5, left: 10 }}
+            layout="vertical"
+            margin={{ top: 0, right: 24, bottom: 0, left: 8 }}
           >
-            <CartesianGrid vertical={true} horizontal={false} stroke="var(--sidebar-border)" strokeDasharray="3 3" />
+            <CartesianGrid 
+              vertical={true} 
+              horizontal={false}
+              stroke="var(--sidebar-border)" 
+              strokeDasharray="3 3" 
+            />
             <XAxis 
               type="number" 
-              tick={{ fontSize: 9, fill: 'var(--text-secondary)' }}
-              axisLine={false} 
-              tickLine={false} 
+              tick={{ fontSize: 9, fill: '#555' }}
+              axisLine={false}
+              tickLine={false}
             />
             <YAxis 
               dataKey="name" 
-              type="category" 
-              width={60}
+              type="category"
+              width={52}
               tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
               axisLine={false}
               tickLine={false}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{fill: 'rgba(255,255,255,0.05)'}} />
-            <Bar dataKey="value" radius={[0, 4, 4, 0]} maxBarSize={18}>
+            <Tooltip
+              contentStyle={{
+                background: 'var(--card-bg)',
+                border: '0.5px solid var(--sidebar-border)',
+                borderRadius: 6,
+                fontSize: 11
+              }}
+              formatter={(value) => [
+                `${value} (${total > 0 ? Math.round(value/total*100) : 0}%)`,
+                'Cases'
+              ]}
+            />
+            <Bar dataKey="value" radius={[0, 4, 4, 0]} 
+                 maxBarSize={24}>
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.fill} fillOpacity={0.85} />
+                <Cell key={index} fill={entry.fill} 
+                      fillOpacity={0.85} />
               ))}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
-    </div>
-  );
-};
 
-export default SeverityBarChart;
+      {/* Summary stats below chart */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        borderTop: '0.5px solid var(--sidebar-border)',
+        paddingTop: 8,
+        marginTop: 8
+      }}>
+        {data.map((item) => (
+          <div key={item.name} style={{ 
+            textAlign: 'center',
+            flex: 1
+          }}>
+            <div style={{ 
+              fontSize: 14, 
+              fontWeight: 600,
+              fontFamily: 'monospace',
+              color: item.fill
+            }}>
+              {item.value}
+            </div>
+            <div style={{ 
+              fontSize: 9, 
+              color: 'var(--text-secondary)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
+            }}>
+              {item.name}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
