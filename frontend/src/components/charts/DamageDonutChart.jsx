@@ -49,19 +49,20 @@ const DamageDonutChart = ({ geojsonData }) => {
   };
 
   return (
-    <div className="flex flex-col h-full relative">
-      <div style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--text-secondary)', letterSpacing: '0.08em', marginBottom: '8px' }}>
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', padding: '8px 4px' }}>
+      <div style={{ fontSize: '9px', textTransform: 'uppercase', color: 'var(--text-secondary)', letterSpacing: '0.08em', marginBottom: '8px' }}>
         DAMAGE DISTRIBUTION
       </div>
-      <div className="flex-1 relative">
-        <ResponsiveContainer width="100%" height={180}>
+      
+      <div style={{ flex: 1, minHeight: 0, position: 'relative' }}>
+        <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={data}
               dataKey="value"
               nameKey="name"
-              innerRadius={45}
-              outerRadius={70}
+              innerRadius="65%"
+              outerRadius="90%"
               stroke="none"
             >
               {data.map((entry, index) => (
@@ -80,21 +81,20 @@ const DamageDonutChart = ({ geojsonData }) => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          pointerEvents: 'none',
-          marginTop: '-12px'
+          pointerEvents: 'none'
         }}>
-          <span style={{ fontSize: '20px', fontWeight: 500, color: 'var(--text-primary)', lineHeight: 1 }}>{total}</span>
-          <span style={{ fontSize: '9px', color: 'var(--text-secondary)', letterSpacing: '0.1em' }}>ZONES</span>
+          <span style={{ fontSize: '24px', fontWeight: 600, fontFamily: 'monospace', color: 'var(--text-primary)', lineHeight: 1 }}>{total}</span>
+          <span style={{ fontSize: '10px', color: 'var(--text-secondary)', letterSpacing: '0.1em' }}>ZONES</span>
         </div>
+      </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '4px' }}>
-          {data.map((entry, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: entry.color }} />
-              <span style={{ fontSize: '10px', color: 'var(--text-secondary)' }}>{entry.name}</span>
-            </div>
-          ))}
-        </div>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginTop: '12px', borderTop: '0.5px solid var(--sidebar-border)', paddingTop: '12px' }}>
+        {data.map((entry, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: entry.color }} />
+            <span style={{ fontSize: '10px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{entry.name}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
