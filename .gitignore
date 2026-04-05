@@ -12,7 +12,6 @@ dist/
 .env.local
 
 # Data
-data/
 *.tif
 *.geojson
 
