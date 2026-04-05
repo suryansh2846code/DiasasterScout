@@ -44,10 +44,12 @@ const QuickStats = ({ stats }) => {
   );
 };
 
-const DraggableDashboard = ({ geojsonData, stats, locations, loading }) => {
+const DraggableDashboard = ({ geojsonData, stats, locations, loading, centerLat, centerLng }) => {
   const [width, setWidth] = useState(1000);
   const [maximized, setMaximized] = useState(null);
   const containerRef = useRef(null);
+  
+  const mapCenter = (centerLat && centerLng) ? [centerLat, centerLng] : null;
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -70,7 +72,7 @@ const DraggableDashboard = ({ geojsonData, stats, locations, loading }) => {
   const panels = {
     map: {
       title: 'DAMAGE MAP',
-      content: <MapView geojsonData={geojsonData} onFeatureClick={() => {}} />
+      content: <MapView geojsonData={geojsonData} center={mapCenter} onFeatureClick={() => {}} />
     },
     donut: {
       title: 'DISTRIBUTION',

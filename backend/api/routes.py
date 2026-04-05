@@ -28,6 +28,59 @@ class AnalyzeRequest(BaseModel):
     post_image_url: str
     event_name: str
     location: str = "Unknown location"
+    lat: float = None
+    lng: float = None
+    is_demo: bool = False
+
+def get_coordinates_from_location(location_str: str):
+    """
+    Tries to geocode the location string using Nominatim (OSM).
+    Falls back to a hardcoded matching logic for demo stability.
+    """
+    import httpx
+    import time
+    
+    loc_lower = location_str.lower()
+    
+    # 1. Try Dynamic Geocoding (Nominatim)
+    try:
+        # Nominatim requires a User-Agent
+        headers = {"User-Agent": "DisasterScout/1.0 (suryansh@example.com)"}
+        params = {"q": location_str, "format": "json", "limit": 1}
+        
+        # Using a sync request for simplicity here, or we could make this async
+        # For now, let's use a very short timeout
+        with httpx.Client(timeout=5.0) as client:
+            resp = client.get("https://nominatim.openstreetmap.org/search", params=params, headers=headers)
+            if resp.status_code == 200:
+                data = resp.json()
+                if data:
+                    lat = float(data[0]["lat"])
+                    lng = float(data[0]["lon"])
+                    print(f"Geocoded '{location_str}' to {lat}, {lng}")
+                    return lat, lng
+    except Exception as e:
+        print(f"Dynamic geocoding failed: {e}")
+
+    # 2. Fallback to hardcoded demo locations
+    # Guatemala Volcan de Fuego
+    if 'guatemala' in loc_lower or 'fuego' in loc_lower:
+        return 14.4747, -90.8808
+        
+    # Turkey/Syria Earthquake (Kahramanmaras)
+    if 'turkey' in loc_lower or 'syria' in loc_lower or 'kahramanmaras' in loc_lower:
+        return 37.57, 36.93
+        
+    # Wayanad Landslides (Kerala)
+    if 'wayanad' in loc_lower or 'kerala' in loc_lower:
+        return 11.605, 76.083
+        
+    # Nepal Earthquake (Kathmandu)
+    if 'nepal' in loc_lower or 'kathmandu' in loc_lower:
+        return 27.7172, 85.3240
+        
+    # Default to a neutral global view (0,0) or a sensible default
+    return 37.57, 36.93
 
 class ReportRequest(BaseModel):
     stats: dict
@@ -108,16 +161,15 @@ def generate_alerts_from_stats(stats):
 
 @router.post("/analyze")
 async def analyze(request: AnalyzeRequest):
-    # CHECK DEMO CACHE FIRST — before anything else
-    name_lower = request.event_name.lower()
-    
-    if 'turkey' in name_lower or 'syria' in name_lower:
-        if 'turkey' in DEMO_CACHE:
-            return DEMO_CACHE['turkey']
-    
-    if 'wayanad' in name_lower or 'kerala' in name_lower:
-        if 'wayanad' in DEMO_CACHE:
-            return DEMO_CACHE['wayanad']
+    # CHECK DEMO CACHE ONLY IF is_demo FLAG IS TRUE
+    if request.is_demo:
+        name_lower = request.event_name.lower()
+        if 'turkey' in name_lower or 'syria' in name_lower:
+            if 'turkey' in DEMO_CACHE:
+                return DEMO_CACHE['turkey']
+        if 'wayanad' in name_lower or 'kerala' in name_lower:
+            if 'wayanad' in DEMO_CACHE:
+                return DEMO_CACHE['wayanad']
         
     job_id = str(uuid.uuid4())[:8]
     t0 = time.time()
@@ -128,7 +180,13 @@ async def analyze(request: AnalyzeRequest):
         CHECKPOINT_PATH
     )
     
-    geojson = mask_to_geojson(mask, confidence_map)
+    # Determine coordinates
+    if request.lat is not None and request.lng is not None:
+        center_lat, center_lng = request.lat, request.lng
+    else:
+        center_lat, center_lng = get_coordinates_from_location(request.location)
+    
+    geojson = mask_to_geojson(mask, confidence_map, center_lat=center_lat, center_lng=center_lng)
     stats = calculate_statistics(mask, confidence_map)
     
     print("Generating Claude situation report...")
@@ -146,6 +204,10 @@ async def analyze(request: AnalyzeRequest):
         "event": {
             "name": request.event_name,
             "location": request.location,
+            "center_lat": center_lat,
+            "center_lng": center_lng,
+            "pre_image_url": request.pre_image_url,
+            "post_image_url": request.post_image_url,
             "analyzedAt": datetime.utcnow().isoformat() + "Z",
             "satelliteSource": "Uploaded imagery",
             "processingTimeSeconds": elapsed_time

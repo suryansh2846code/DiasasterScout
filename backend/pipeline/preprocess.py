@@ -1,3 +1,4 @@
+import re
 import httpx
 from PIL import Image
 from io import BytesIO
@@ -7,19 +8,59 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+def convert_gdrive_url(url: str) -> str:
+    """
+    Converts a Google Drive shareable link to a direct download URL.
+    Handles formats:
+      - https://drive.google.com/file/d/FILE_ID/view?...
+      - https://drive.google.com/open?id=FILE_ID
+    Returns the original URL unchanged if it's not a Google Drive link.
+    """
+    # Already a direct download link
+    if "drive.google.com/uc" in url:
+        return url
+
+    # Match /file/d/FILE_ID/...
+    match = re.search(r"drive\.google\.com/file/d/([a-zA-Z0-9_-]+)", url)
+    if match:
+        file_id = match.group(1)
+        return f"https://drive.google.com/uc?export=download&id={file_id}&confirm=t"
+
+    # Match open?id=FILE_ID
+    match = re.search(r"drive\.google\.com/open\?id=([a-zA-Z0-9_-]+)", url)
+    if match:
+        file_id = match.group(1)
+        return f"https://drive.google.com/uc?export=download&id={file_id}&confirm=t"
+
+    return url
+
 async def load_image_pair(pre_url: str, post_url: str):
     """
     Downloads both images from URLs, resizes to 512x512, converts to RGB,
     normalizes to [0, 1] range.
     Returns: pre_array (512, 512, 3), post_array (512, 512, 3) float32 arrays
     """
-    async with httpx.AsyncClient() as client:
+    # Convert any Google Drive share links to direct download URLs
+    pre_url = convert_gdrive_url(pre_url)
+    post_url = convert_gdrive_url(post_url)
+    logger.info(f"Fetching pre-image from: {pre_url}")
+    logger.info(f"Fetching post-image from: {post_url}")
+
+    async with httpx.AsyncClient(follow_redirects=True, timeout=60.0) as client:
         # Fetch both images concurrently for speed if possible, or sequentially
         pre_resp = await client.get(pre_url)
         post_resp = await client.get(post_url)
         
         pre_resp.raise_for_status()
         post_resp.raise_for_status()
+
+        # Check if content is actually an image
+        if "text/html" in pre_resp.headers.get("Content-Type", ""):
+            logger.error(f"Pre-image URL returned HTML instead of an image. Snippet: {pre_resp.text[:200]}")
+            raise ValueError("Pre-image URL returned a webpage (likely Google Drive login/warning) instead of a direct image file.")
+        if "text/html" in post_resp.headers.get("Content-Type", ""):
+            logger.error(f"Post-image URL returned HTML instead of an image. Snippet: {post_resp.text[:200]}")
+            raise ValueError("Post-image URL returned a webpage (likely Google Drive login/warning) instead of a direct image file.")
         
     def process_image(img_bytes):
         img = Image.open(BytesIO(img_bytes)).convert("RGB")

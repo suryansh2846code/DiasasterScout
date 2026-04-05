@@ -39,7 +39,8 @@ export default function useAnalysis() {
         pre_image_url: params.preImageUrl,
         post_image_url: params.postImageUrl,
         event_name: params.eventName,
-        location: params.location || 'Unknown location'
+        location: params.location || 'Unknown location',
+        is_demo: params.isDemo || false
       })
 
       const result = submitResponse.data
@@ -116,16 +117,16 @@ export default function useAnalysis() {
     }
   }, [stopPolling])
 
-  // Convenience: load mock data instantly for demo/testing
-  const loadDemo = useCallback(() => {
-    setLoading(true)
-    setProgress({ stage: 'Loading demo scenario...', percent: 50 })
-    setTimeout(() => {
-      setData(MOCK_ANALYSIS)
-      setLoading(false)
-      setProgress(null)
-    }, 1500)
-  }, [])
+  // Convenience: load high-quality demo data from backend cache
+  const loadDemo = useCallback(async () => {
+    return analyze({
+      preImageUrl: 'demo',
+      postImageUrl: 'demo',
+      eventName: 'turkey earthquake',
+      location: 'Kahramanmaras, Turkey',
+      isDemo: true
+    })
+  }, [analyze])
 
   return { data, loading, error, progress, analyze, loadDemo, setData }
 }

@@ -86,13 +86,19 @@ function App() {
               stats={data.stats}
               locations={data.locations}
               loading={loading || regenerating}
+              centerLat={data.event?.center_lat}
+              centerLng={data.event?.center_lng}
             />
           )}
           {!showAnalyzePanel && data && activeTab === 'locations' && (
             <LocationsTable locations={data.locations ?? []} />
           )}
           {!showAnalyzePanel && data && activeTab === 'compare' && (
-            <BeforeAfter eventName={data.event?.name} />
+            <BeforeAfter 
+              eventName={data.event?.name} 
+              preImageUrl={data.event?.pre_image_url}
+              postImageUrl={data.event?.post_image_url}
+            />
           )}
           {!showAnalyzePanel && data && activeTab === 'export' && (
             <ExportPanel data={data} />

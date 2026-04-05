@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
 
-const BeforeAfter = ({ eventName }) => {
+const BeforeAfter = ({ eventName, preImageUrl, postImageUrl }) => {
   const handleImageError = (e) => {
     const isPre = e.target.alt.includes('Pre');
     e.target.src = isPre 
@@ -16,24 +16,24 @@ const BeforeAfter = ({ eventName }) => {
           itemOne={
             <div className="relative h-full">
               <ReactCompareSliderImage 
-                src="https://picsum.photos/seed/turkey-pre/800/500" 
+                src={preImageUrl || "https://picsum.photos/seed/turkey-pre/800/500"} 
                 alt="Pre-disaster" 
                 onError={handleImageError}
               />
               <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full text-[11px] font-bold text-white uppercase tracking-wider border border-white/10 z-10">
-                Pre-disaster · Feb 5, 2023
+                PRE-DISASTER IMAGE
               </div>
             </div>
           }
           itemTwo={
             <div className="relative h-full">
               <ReactCompareSliderImage 
-                src="https://picsum.photos/seed/turkey-post/800/500" 
+                src={postImageUrl || "https://picsum.photos/seed/turkey-post/800/500"} 
                 alt="Post-disaster" 
                 onError={handleImageError}
               />
               <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full text-[11px] font-bold text-white uppercase tracking-wider border border-white/10 z-10">
-                Post-disaster · Feb 7, 2023
+                POST-DISASTER IMAGE
               </div>
             </div>
           }

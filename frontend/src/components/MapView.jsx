@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapContainer, TileLayer, GeoJSON, Popup, ScaleControl, ZoomControl } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, Popup, ScaleControl, ZoomControl, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import StatusBadge from './StatusBadge';
@@ -10,7 +10,21 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({ iconUrl, shadowUrl: iconShadow });
 
-const MapView = ({ geojsonData, onFeatureClick }) => {
+const MapRecenter = ({ geojsonData, center }) => {
+  const map = useMap();
+  React.useEffect(() => {
+    if (geojsonData && geojsonData.features && geojsonData.features.length > 0) {
+      const firstFeature = geojsonData.features[0];
+      const coords = firstFeature.geometry.coordinates[0][0]; // [lng, lat]
+      map.setView([coords[1], coords[0]], 13);
+    } else if (center) {
+      map.setView(center, 13);
+    }
+  }, [geojsonData, center, map]);
+  return null;
+};
+
+const MapView = ({ geojsonData, center, onFeatureClick }) => {
   const [visibleLayers, setVisibleLayers] = useState({
     structural_damage: true,
     flood: true,
@@ -82,11 +96,12 @@ const MapView = ({ geojsonData, onFeatureClick }) => {
   return (
     <div className="relative w-full h-full">
       <MapContainer 
-        center={[37.57, 36.93]} 
+        center={center || [37.57, 36.93]} 
         zoom={13} 
         style={{ height: '100%', width: '100%', background: '#0f1117' }}
         zoomControl={false}
       >
+        <MapRecenter geojsonData={geojsonData} center={center} />
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
